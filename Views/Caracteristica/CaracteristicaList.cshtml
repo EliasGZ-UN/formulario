@@ -1,0 +1,39 @@
+@model List<CaracteristicaModel>
+
+<h1>Lista de Características</h1>
+
+<a class="btn btn-primary" asp-action="CaracteristicaAdd"
+    asp-controller="Caracteristica">Agregar Característica</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Activo</th>
+            <th>Fecha de Creación</th>
+            @* <th>Acciones</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var Caracteristica in Model)
+        {
+            <tr>
+                <td>@Caracteristica.Name</td>
+                <td>@Caracteristica.Description</td>
+                <td>@Caracteristica.Active</td>
+                <td>@Caracteristica.CreationDate</td>
+                @* <td>
+                    <a class="btn btn-secondary"
+                    asp-action="CaracteristicaEdit"
+                    asp-controller="Caracteristica"
+                    asp-route-id="@Caracteristica.Id">Editar</a>
+                    <a class="btn btn-danger"
+                    asp-action="CaracteristicaDelete"
+                    asp-controller="Caracteristica"
+                    asp-route-id="@Caracteristica.Id">Borrar</a>
+                </td> *@
+            </tr>
+        }
+    </tbody>
+</table>
