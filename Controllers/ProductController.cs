@@ -40,8 +40,13 @@ namespace formulario.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductAdd(ProductModel product)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("ProductAdd", product);
+            }
+            
             var productEntity = new Producto();
-            productEntity.Id = product.Id;
+            productEntity.Id = new Guid();
             productEntity.Nombre = product.Name;
             productEntity.Cantidad = product.Quantity;
             productEntity.FechaCreacion = product.CreationDate;
@@ -105,7 +110,7 @@ namespace formulario.Controllers
             _context.Productos.Remove(producto);
             _context.SaveChanges();
 
-            return RedirectToAction("ProductList", "Product");
+            return RedirectToAction("ProductList");
         }
     }
 }
