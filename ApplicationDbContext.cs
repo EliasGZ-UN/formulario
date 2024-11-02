@@ -12,5 +12,6 @@ namespace formulario
 
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Caracteristica> Caracteristicas { get; set; }
+        public DbSet<Marca> Marcas { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using formulario.Entidades;
 using formulario.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace formulario.Controllers
@@ -18,12 +19,17 @@ namespace formulario.Controllers
         {
             List<ProductModel> list =
                 _context.Productos
+                    .Include(p => p.Marca)
                     .Select(p => new ProductModel()
                      {
                         Id = p.Id,
                         Name = p.Nombre,
                         Quantity = p.Cantidad,
-                        CreationDate = p.FechaCreacion
+                        CreationDate = p.FechaCreacion,
+                        Brand = new BrandModel()
+                        {
+                            Name = p.Marca.Nombre
+                        }
                      })
                     .ToList();
 
@@ -33,6 +39,14 @@ namespace formulario.Controllers
         public IActionResult ProductAdd()
         {
             var model = new ProductModel();
+
+            model.BrandList = _context.Marcas
+                .Where(m => m.Activo)
+                .Select(m => new SelectListItem()
+                {
+                    Value = m.Id.ToString(),
+                    Text = m.Nombre
+                }).ToList();
 
             return View(model);
         }
@@ -50,9 +64,10 @@ namespace formulario.Controllers
             productEntity.Nombre = product.Name;
             productEntity.Cantidad = product.Quantity;
             productEntity.FechaCreacion = product.CreationDate;
+            productEntity.MarcaId = product.BrandId;
 
             this._context.Productos.Add(productEntity);
-            await this._context.SaveChangesAsync();
+            this._context.SaveChanges();
 
             return RedirectToAction("ProductList", "Product");
         }

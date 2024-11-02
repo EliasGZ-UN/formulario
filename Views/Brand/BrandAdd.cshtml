@@ -1,0 +1,30 @@
+@model BrandModel
+
+@section Scripts {
+    <partial name = "_ValidationScriptsPartial"></partial>
+}
+<script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form class="form" asp-controller="Brand" asp-action="BrandAdd">
+    <div class="mb-3">
+        <label class="form-label" asp-for="Name">Nombre</label>
+        <input class="form-control" type="text" asp-for="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label" asp-for="Description">Descripción</label>
+        <input class="form-control" type="text" asp-for="Description">
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label" asp-for="Active">Activo</label>
+        <input type="checkbox" asp-for="Active">
+    </div>
+    
+    <div class="mb-3">
+        <button class="btn btn-primary">Guardar</button>
+    </div>
+</form>
