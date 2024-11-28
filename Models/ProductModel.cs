@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using formulario.Validaciones;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace formulario.Models
 {
@@ -23,5 +24,12 @@ namespace formulario.Models
         [Display(Name = "Cantidad")]
         public int Quantity { get; set; }
         public DateTime CreationDate { get; set; }
+        
+        //no sirve esta validación
+        /*[Required(ErrorMessage = "Falta seleccionar {0}")]
+        [Display(Name = "Marca")]*/
+        public Guid BrandId { get; set; }
+        public BrandModel Brand { get; set; }
+        public List<SelectListItem>? BrandList { get; set; }
     }
 }

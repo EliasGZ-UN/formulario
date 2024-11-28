@@ -16,6 +16,13 @@
         <label class="form-label" asp-for="CreationDate">Fecha de Creación</label>
         <input class="form-control" type="date" asp-for="CreationDate">
     </div>
+
+    <div class="mb-3">
+        <select class="form-select" asp-for="@Model.BrandId" asp-items="@Model.BrandList">
+            <option>Seleccionar la Marca</option>
+            @* <span asp-validation-for="BrandId" class="text-danger"></span> *@
+        </select>
+    </div>
     
     <div class="mb-3">
         <button class="btn btn-primary">Guardar Cambios</button>

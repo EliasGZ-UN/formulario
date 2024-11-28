@@ -1,16 +1,16 @@
-@model List<ProductModel>
+@model List<BrandModel>
 
-<h1>Lista de Productos</h1>
+<h1>Lista de Marcas</h1>
 
-<a class="btn btn-primary" asp-action="ProductAdd" asp-controller="Product">Agregar Producto</a>
+<a class="btn btn-primary" asp-action="BrandAdd" asp-controller="Brand">Agregar Marca</a>
 
 <table class="table">
     <thead>
         <tr>
             <th>Nombre</th>
-            <th>Cantidad</th>
+            <th>Descripción</th>
+            <th>Activo</th>
             <th>Fecha de Creación</th>
-            <th>Marca</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -19,17 +19,17 @@
         {
             <tr>
                 <td>@product.Name</td>
-                <td>@product.Quantity</td>
+                <td>@product.Description</td>
+                <td>@product.Active</td>
                 <td>@product.CreationDate</td>
-                <td>@product.Brand.Name</td>
                 <td>
                     <a class="btn btn-secondary"
-                    asp-action="ProductEdit"
-                    asp-controller="Product"
+                    asp-action="BrandEdit"
+                    asp-controller="Brand"
                     asp-route-id="@product.Id">Editar</a>
                     <a class="btn btn-danger"
-                    asp-action="ProductDelete"
-                    asp-controller="Product"
+                    asp-action="BrandDelete"
+                    asp-controller="Brand"
                     asp-route-id="@product.Id">Borrar</a>
                 </td>
             </tr>

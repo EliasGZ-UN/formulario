@@ -1,6 +1,7 @@
 using formulario.Entidades;
 using formulario.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace formulario.Controllers
@@ -18,12 +19,18 @@ namespace formulario.Controllers
         {
             List<ProductModel> list =
                 _context.Productos
+                    .Include(p => p.Marca)
                     .Select(p => new ProductModel()
                      {
                         Id = p.Id,
                         Name = p.Nombre,
                         Quantity = p.Cantidad,
-                        CreationDate = p.FechaCreacion
+                        CreationDate = p.FechaCreacion,
+                        BrandId = p.MarcaId,
+                        Brand = new BrandModel()
+                        {
+                            Name = p.Marca.Nombre
+                        }
                      })
                     .ToList();
 
@@ -33,6 +40,15 @@ namespace formulario.Controllers
         public IActionResult ProductAdd()
         {
             var model = new ProductModel();
+
+            model.BrandList = _context.Marcas
+                .Where(m => m.Activo)
+                .Select(m => new SelectListItem()
+                {
+                    Value = m.Id.ToString(),
+                    Text = m.Nombre
+                })
+                .ToList();
 
             return View(model);
         }
@@ -50,9 +66,10 @@ namespace formulario.Controllers
             productEntity.Nombre = product.Name;
             productEntity.Cantidad = product.Quantity;
             productEntity.FechaCreacion = product.CreationDate;
+            productEntity.MarcaId = product.BrandId;
 
             this._context.Productos.Add(productEntity);
-            await this._context.SaveChangesAsync();
+            this._context.SaveChanges();
 
             return RedirectToAction("ProductList", "Product");
         }
@@ -71,7 +88,21 @@ namespace formulario.Controllers
             model.Id = producto.Id;
             model.Name = producto.Nombre;
             model.Quantity = producto.Cantidad;
+            model.BrandId = producto.MarcaId;
             model.CreationDate = producto.FechaCreacion;
+            
+            model.BrandList = _context.Marcas
+                .Where(m => m.Activo)
+                .Select(m => new SelectListItem()
+                {
+                    Value = m.Id.ToString(),
+                    Text = m.Nombre,
+                    // Selected = m.Id == model.BrandId
+                })
+                .ToList();
+            
+            // var selected = model.BrandList.Where(m => m.Value == producto.MarcaId.ToString()).First();
+            //     selected.Selected = true;
 
             return View(model);
         }
@@ -90,6 +121,7 @@ namespace formulario.Controllers
             producto.Nombre = model.Name;
             producto.Cantidad = model.Quantity;
             producto.FechaCreacion = model.CreationDate;
+            producto.MarcaId = model.BrandId;
 
             _context.Productos.Update(producto);
             _context.SaveChanges();
