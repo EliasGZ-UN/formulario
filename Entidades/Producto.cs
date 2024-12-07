@@ -13,6 +13,6 @@ namespace formulario.Entidades
         public DateTime FechaCreacion { get; set; }
         public List<Caracteristica>? Caracteristicas { get; set; }
         public Guid MarcaId { get; set; }
-        public Marca Marca { get; set; }
+        public Marca? Marca { get; set; }
     }
 }

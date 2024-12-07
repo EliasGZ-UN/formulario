@@ -15,22 +15,28 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var product in Model)
+        @foreach(var brand in Model)
         {
             <tr>
-                <td>@product.Name</td>
-                <td>@product.Description</td>
-                <td>@product.Active</td>
-                <td>@product.CreationDate</td>
+                <td>@brand.Name</td>
+                <td>@brand.Description</td>
+                <td> @if (@brand.Active)
+                    {
+                        <a>Sí C:</a>
+                    } else {
+                        <a>No :C</a>
+                    }
+                </td>
+                <td>@brand.CreationDate</td>
                 <td>
                     <a class="btn btn-secondary"
                     asp-action="BrandEdit"
                     asp-controller="Brand"
-                    asp-route-id="@product.Id">Editar</a>
+                    asp-route-id="@brand.Id">Editar</a>
                     <a class="btn btn-danger"
                     asp-action="BrandDelete"
                     asp-controller="Brand"
-                    asp-route-id="@product.Id">Borrar</a>
+                    asp-route-id="@brand.Id">Borrar</a>
                 </td>
             </tr>
         }

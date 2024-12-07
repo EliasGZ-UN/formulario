@@ -24,12 +24,11 @@ namespace formulario.Models
         [Display(Name = "Cantidad")]
         public int Quantity { get; set; }
         public DateTime CreationDate { get; set; }
-        
-        //no sirve esta validación
-        /*[Required(ErrorMessage = "Falta seleccionar {0}")]
-        [Display(Name = "Marca")]*/
+
+        [Required(ErrorMessage = "Falta seleccionar {0}")]
+        [Display(Name = "Marca")]
         public Guid BrandId { get; set; }
-        public BrandModel Brand { get; set; }
+        public BrandModel? Brand { get; set; }
         public List<SelectListItem>? BrandList { get; set; }
     }
 }

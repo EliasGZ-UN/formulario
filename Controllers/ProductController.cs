@@ -26,7 +26,6 @@ namespace formulario.Controllers
                         Name = p.Nombre,
                         Quantity = p.Cantidad,
                         CreationDate = p.FechaCreacion,
-                        BrandId = p.MarcaId,
                         Brand = new BrandModel()
                         {
                             Name = p.Marca.Nombre
@@ -47,8 +46,7 @@ namespace formulario.Controllers
                 {
                     Value = m.Id.ToString(),
                     Text = m.Nombre
-                })
-                .ToList();
+                }).ToList();
 
             return View(model);
         }

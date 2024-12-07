@@ -31,6 +31,38 @@ namespace formulario.Controllers
             return View(list);
         }
 
+        public List<BrandModel> GetBrandList()
+        {
+            List<BrandModel> list =
+                _context.Marcas
+                    .Select(p => new BrandModel()
+                     {
+                        Id = p.Id,
+                        Name = p.Nombre,
+                        Description = p.Descripcion,
+                        Active = p.Activo,
+                        CreationDate = p.FechaCreacion
+                     })
+                    .ToList();
+
+            return list;
+        }
+
+        public BrandModel GetBrandById(string id)
+        {
+            var marca = _context.Marcas
+                .Where(p => p.Id == new Guid(id)).FirstOrDefault();
+
+            BrandModel model = new BrandModel();
+            model.Id = marca.Id;
+            model.Name = marca.Nombre;
+            model.Description = marca.Descripcion;
+            model.Active = marca.Activo;
+            model.CreationDate = marca.FechaCreacion;
+
+            return model;
+        }
+
         public IActionResult BrandAdd()
         {
             var model = new BrandModel();
@@ -46,15 +78,15 @@ namespace formulario.Controllers
                 return View("BrandAdd", brand);
             }
             
-            var marca = new Marca();
-            marca.Id = new Guid();
-            marca.Nombre = brand.Name;
-            marca.Descripcion = brand.Description;
-            marca.Activo = brand.Active;
-            marca.FechaCreacion = DateTime.Now;
+            var brandEntity = new Marca();
+            brandEntity.Id = new Guid();
+            brandEntity.Nombre = brand.Name;
+            brandEntity.Descripcion = brand.Description;
+            brandEntity.Activo = brand.Active;
+            brandEntity.FechaCreacion = DateTime.Now;
 
-            this._context.Marcas.Add(marca);
-            this._context.SaveChangesAsync();
+            this._context.Marcas.Add(brandEntity);
+            this._context.SaveChanges();
 
             return RedirectToAction("BrandList", "Brand");
         }
@@ -89,7 +121,6 @@ namespace formulario.Controllers
             {
                 return NotFound();
             }
-            
             marca.Nombre = model.Name;
             marca.Descripcion = model.Description;
             marca.Activo = model.Active;
